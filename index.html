@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>F.lli Cordero - Ordina Online</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-white: #ffffff;
+            --soft-pink: #fff8f2;
+            --butcher-red: #c0581a;
+            --butcher-pink: #e8956a;
+            --text-dark: #2d2d2d;
+            --border-light: #eeeeee;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body, html {
+            margin: 0; padding: 0;
+            background-color: var(--soft-pink);
+            color: var(--text-dark);
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        /* PROGRESS BAR */
+        .progress-bar-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 5px;
+            background: var(--border-light);
+            z-index: 100;
+        }
+
+        #progress-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--butcher-red);
+            box-shadow: 0 0 10px rgba(211, 47, 47, 0.3);
+            transition: width 0.4s ease;
+        }
+
+        /* SLIDER */
+        .main-slider {
+            display: flex;
+            width: 400%;
+            height: 100%;
+            transition: transform 0.5s cubic-bezier(0.85, 0, 0.15, 1);
+        }
+
+        section {
+            width: 25vw; /* 100vw / 4 steps — overridden below */
+            height: 100vh;
+            padding: 20px 20px 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+            width: 100vw;
+        }
+
+        .content-wrapper {
+            width: 100%;
+            max-width: 450px;
+            background: white;
+            padding: 25px;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+            max-height: 88vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .scrollable-content {
+            overflow-y: auto;
+            flex-grow: 1;
+            padding-right: 5px;
+            margin-bottom: 15px;
+        }
+
+        .scrollable-content::-webkit-scrollbar { width: 4px; }
+        .scrollable-content::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 10px; }
+
+        h2 {
+            color: var(--butcher-red);
+            font-weight: 900;
+            margin: 0 0 5px 0;
+            text-align: center;
+            text-transform: uppercase;
+            font-size: 1.4rem;
+        }
+
+        p.subtitle {
+            color: #888;
+            text-align: center;
+            margin: 0 0 20px 0;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        /* STEP DOTS */
+        .step-dots {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 18px;
+        }
+
+        .step-dot {
+            width: 7px; height: 7px;
+            border-radius: 50%;
+            background: var(--border-light);
+            transition: background 0.3s, width 0.3s;
+        }
+
+        .step-dot.active {
+            background: var(--butcher-red);
+            width: 20px;
+            border-radius: 4px;
+        }
+
+        /* PRODOTTI */
+        .product-card {
+            border: 1px solid var(--border-light);
+            padding: 12px;
+            border-radius: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: border-color 0.2s;
+        }
+
+        .product-card.has-qty {
+            border-color: var(--butcher-pink);
+        }
+
+        .product-header {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .product-image {
+            width: 68px;
+            height: 68px;
+            border-radius: 12px;
+            object-fit: cover;
+            background: #f0f0f0;
+            flex-shrink: 0;
+        }
+
+        .product-info { flex-grow: 1; }
+        .product-name { font-weight: 700; font-size: 0.95rem; display: block; margin-bottom: 3px; }
+        .product-price { color: #999; font-size: 0.78rem; }
+        .product-desc { color: #bbb; font-size: 0.72rem; display: block; margin-top: 2px; }
+
+        .product-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--soft-pink);
+            padding: 8px 12px;
+            border-radius: 12px;
+        }
+
+        .qty-input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .qty-btn {
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            border: none;
+            background: white;
+            font-size: 1.2rem;
+            line-height: 1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--butcher-red);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            font-weight: 700;
+            padding: 0;
+        }
+
+        .qty-btn:active { transform: scale(0.92); }
+
+        .qty-input {
+            width: 52px;
+            border: 1px solid var(--butcher-pink);
+            background: white;
+            padding: 5px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--butcher-red);
+            -moz-appearance: textfield;
+        }
+
+        .qty-input::-webkit-outer-spin-button,
+        .qty-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+        .unit-label { font-size: 0.78rem; font-weight: 600; color: #999; min-width: 24px; }
+
+        .item-subtotal {
+            font-weight: 700;
+            color: var(--butcher-red);
+            font-size: 0.9rem;
+            min-width: 56px;
+            text-align: right;
+        }
+
+        /* CATEGORIE */
+        .category-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #bbb;
+            letter-spacing: 0.08em;
+            margin: 16px 0 8px;
+        }
+
+        /* SELEZIONE */
+        .selection-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .selection-btn {
+            background: var(--soft-pink);
+            border: 2px solid transparent;
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 0.88rem;
+        }
+
+        .selection-btn.active {
+            background: white;
+            border-color: var(--butcher-red);
+            color: var(--butcher-red);
+            box-shadow: 0 4px 10px rgba(211, 47, 47, 0.1);
+        }
+
+        .selection-btn span {
+            display: block;
+            font-size: 0.68rem;
+            opacity: 0.7;
+            font-weight: 400;
+            margin-top: 2px;
+        }
+
+        /* CART FOOTER */
+        .cart-footer {
+            border-top: 2px dashed var(--border-light);
+            padding-top: 15px;
+        }
+
+        .total-display {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.15rem;
+            font-weight: 900;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+
+        .total-badge {
+            background: var(--soft-pink);
+            color: var(--butcher-red);
+            padding: 5px 12px;
+            border-radius: 20px;
+        }
+
+        /* FORM */
+        .input-group { width: 100%; margin-bottom: 15px; }
+        .input-group label { display: block; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; margin-bottom: 6px; color: #888; letter-spacing: 0.05em; }
+
+        input[type="text"],
+        input[type="tel"],
+        textarea {
+            width: 100%;
+            background: var(--soft-pink);
+            border: 1.5px solid transparent;
+            padding: 14px 15px;
+            border-radius: 12px;
+            font-size: 1rem;
+            outline: none;
+            font-family: 'Outfit', sans-serif;
+            color: var(--text-dark);
+            transition: border-color 0.2s;
+            resize: none;
+        }
+
+        input:focus, textarea:focus { border-color: var(--butcher-red); background: white; }
+
+        textarea { min-height: 70px; }
+
+        /* RIEPILOGO */
+        #order-summary-box {
+            background: var(--soft-pink);
+            padding: 14px;
+            border-radius: 12px;
+            margin-top: 10px;
+        }
+
+        .summary-header {
+            font-weight: 700;
+            font-size: 0.68rem;
+            color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 8px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 4px;
+            font-size: 0.82rem;
+        }
+
+        .summary-total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px dashed #ddd;
+            font-weight: 800;
+            font-size: 0.9rem;
+            color: var(--butcher-red);
+        }
+
+        /* BUTTONS */
+        .btn-primary {
+            background: var(--butcher-red);
+            color: white;
+            border: none;
+            padding: 17px;
+            border-radius: 14px;
+            width: 100%;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(211, 47, 47, 0.2);
+            font-size: 0.95rem;
+            letter-spacing: 0.04em;
+            transition: opacity 0.2s, transform 0.1s;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .btn-primary:disabled { opacity: 0.4; pointer-events: none; }
+        .btn-primary:active { transform: scale(0.98); }
+
+        .btn-back {
+            background: transparent;
+            color: #aaa;
+            border: none;
+            margin-top: 12px;
+            font-size: 0.82rem;
+            text-decoration: underline;
+            cursor: pointer;
+            width: 100%;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* SCHERMATA CONFERMA */
+        .success-icon {
+            font-size: 5rem;
+            margin-bottom: 10px;
+            animation: pop 0.5s ease;
+        }
+
+        @keyframes pop {
+            0% { transform: scale(0); }
+            70% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+        .success-pill {
+            background: #e8f5e9;
+            color: #388e3c;
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+
+        .confirm-detail {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px;
+            background: var(--soft-pink);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            font-size: 0.88rem;
+        }
+
+        .confirm-detail .icon { font-size: 1.2rem; flex-shrink: 0; }
+        .confirm-detail .label { font-size: 0.7rem; color: #aaa; display: block; }
+        .confirm-detail .value { font-weight: 700; }
+
+        /* HOME HERO */
+        .hero-logo {
+            width: 170px;
+            height: 170px;
+            object-fit: contain;
+            margin-bottom: 8px;
+            animation: float 3s ease-in-out infinite;
+            filter: drop-shadow(0 8px 20px rgba(192, 88, 26, 0.18));
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .feature-pills {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+
+        .pill {
+            background: var(--soft-pink);
+            font-size: 0.75rem;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+<div class="progress-bar-container"><div id="progress-fill"></div></div>
+
+<div class="main-slider" id="slider">
+
+    <!-- STEP 0: HOME -->
+    <section>
+        <div class="content-wrapper" style="align-items:center; text-align:center;">
+            <div class="step-dots" id="dots-0"></div>
+            <img src="logo.png" class="hero-logo" alt="F.lli Cordero snc">
+            <h2>F.lli Cordero</h2>
+            <p class="subtitle">Qualità artigianale dal 1980.<br>Prenota i tuoi tagli in pochi secondi.</p>
+            <div class="feature-pills">
+                <span class="pill">🚗 Ritiro in negozio</span>
+                <span class="pill">📲 Ordine su WhatsApp</span>
+                <span class="pill">✂️ Taglio su misura</span>
+            </div>
+            <button class="btn-primary" onclick="nextStep()">Vedi il Banco 🛒</button>
+        </div>
+    </section>
+
+    <!-- STEP 1: PRODOTTI -->
+    <section>
+        <div class="content-wrapper">
+            <div class="step-dots" id="dots-1"></div>
+            <h2>Il Nostro Banco</h2>
+            <p class="subtitle">Inserisci la quantità desiderata</p>
+
+            <div class="scrollable-content" id="product-list"></div>
+
+            <div class="cart-footer">
+                <div class="total-display">
+                    <span>Totale Stimato</span>
+                    <span class="total-badge" id="cart-total">€ 0.00</span>
+                </div>
+                <button class="btn-primary" id="go-to-checkout" onclick="nextStep()" disabled>Conferma Ordine ›</button>
+                <button class="btn-back" onclick="prevStep()">‹ Torna Indietro</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- STEP 2: DATI E RITIRO -->
+    <section>
+        <div class="content-wrapper">
+            <div class="step-dots" id="dots-2"></div>
+            <h2>Dettagli Ritiro</h2>
+            <p class="subtitle">Scegli quando passare in macelleria</p>
+
+            <div class="scrollable-content">
+                <div class="input-group">
+                    <label>Il tuo Nome</label>
+                    <input type="text" id="user-name" placeholder="Es. Mario Rossi">
+                </div>
+
+                <div class="input-group">
+                    <label>Seleziona il Giorno</label>
+                    <div class="selection-grid" id="day-selector"></div>
+                </div>
+
+                <div class="input-group">
+                    <label>Fascia Oraria</label>
+                    <div class="selection-grid">
+                        <div class="selection-btn active" onclick="selectGroup('time', 'Mattina', this)">
+                            Mattina <span>08:30 – 13:00</span>
+                        </div>
+                        <div class="selection-btn" onclick="selectGroup('time', 'Pomeriggio', this)">
+                            Pomeriggio <span>16:30 – 19:30</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Note per il Macellaio (opzionale)</label>
+                    <textarea id="order-notes" placeholder="Es. fette sottili, senza grasso, macinato doppio…"></textarea>
+                </div>
+
+                <div id="order-summary-box">
+                    <div class="summary-header">Riepilogo Ordine</div>
+                    <div id="summary-items-list"></div>
+                    <div class="summary-total-row">
+                        <span>Totale Stimato</span>
+                        <span id="summary-total">€ 0.00</span>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-primary" onclick="sendToWhatsApp()">Invia su WhatsApp 📲</button>
+            <button class="btn-back" onclick="prevStep()">‹ Modifica Spesa</button>
+        </div>
+    </section>
+
+    <!-- STEP 3: CONFERMA -->
+    <section>
+        <div class="content-wrapper" style="align-items:center; text-align:center;">
+            <div class="step-dots" id="dots-3"></div>
+            <div class="success-icon">✅</div>
+            <div class="success-pill">Ordine Inviato!</div>
+            <h2 style="margin-bottom:8px;">Perfetto, <span id="confirm-name">amico</span>!</h2>
+            <p class="subtitle" style="margin-bottom:20px;">Il tuo ordine è stato inviato in WhatsApp. Riceverai conferma dal macellaio.</p>
+
+            <div style="width:100%;">
+                <div class="confirm-detail">
+                    <span class="icon">📅</span>
+                    <div>
+                        <span class="label">Giorno di Ritiro</span>
+                        <span class="value" id="confirm-day">—</span>
+                    </div>
+                </div>
+                <div class="confirm-detail">
+                    <span class="icon">⏰</span>
+                    <div>
+                        <span class="label">Fascia Oraria</span>
+                        <span class="value" id="confirm-time">—</span>
+                    </div>
+                </div>
+                <div class="confirm-detail">
+                    <span class="icon">💰</span>
+                    <div>
+                        <span class="label">Totale Stimato</span>
+                        <span class="value" id="confirm-total">€ 0.00</span>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-primary" style="margin-top:20px;" onclick="resetOrder()">Nuovo Ordine 🔄</button>
+        </div>
+    </section>
+
+</div>
+
+<script>
+    /* ============================================
+       CONFIGURAZIONE — modifica qui i tuoi dati
+    ============================================ */
+    const WHATSAPP_NUMBER = "393330000000"; // Numero senza + (internazionale)
+    const SHOP_NAME      = "F.lli Cordero snc";
+
+    /* ============================================
+       CATALOGO PRODOTTI
+       unit: "etti" = prezzo per 100g | "pz" = prezzo per pezzo
+    ============================================ */
+    const CATEGORIES = [
+        {
+            label: "🐄 Bovino",
+            products: [
+                { id: 1, name: "Filetto di Scottona",    price: 3.80, unit: "etti", desc: "Tenero e saporito", img: "https://images.unsplash.com/photo-1558030006-450675393462?q=80&w=200&auto=format&fit=crop" },
+                { id: 2, name: "Costata Black Angus",    price: 2.60, unit: "etti", desc: "Marezzatura eccellente", img: "https://images.unsplash.com/photo-1603048297172-c92544798d5e?q=80&w=200&auto=format&fit=crop" },
+                { id: 4, name: "Fettine Sceltissime",    price: 1.90, unit: "etti", desc: "Ideali per la padella", img: "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?q=80&w=200&auto=format&fit=crop" },
+                { id: 5, name: "Hamburger di Chianina", price: 2.50, unit: "pz",   desc: "200g cadauno", img: "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?q=80&w=200&auto=format&fit=crop" },
+            ]
+        },
+        {
+            label: "🐷 Salumi & Maiale",
+            products: [
+                { id: 3, name: "Salsiccia Artigianale", price: 1.10, unit: "etti", desc: "Speziatura tradizionale", img: "https://images.unsplash.com/photo-1541048028917-3d294bb737eb?q=80&w=200&auto=format&fit=crop" },
+                { id: 6, name: "Arrosticini Abruzzesi", price: 0.80, unit: "pz",   desc: "Agnello selezione", img: "https://images.unsplash.com/photo-1532636875304-1c89119d9b4f?q=80&w=200&auto=format&fit=crop" },
+            ]
+        },
+        {
+            label: "🐔 Bianco",
+            products: [
+                { id: 7, name: "Pollo Ruspante",         price: 0.95, unit: "etti", desc: "Allevamento locale", img: "https://images.unsplash.com/photo-1587593810167-a84920ea0781?q=80&w=200&auto=format&fit=crop" },
+            ]
+        }
+    ];
+
+    // Flat list usata per calcoli
+    const products = CATEGORIES.flatMap(c => c.products);
+
+    let currentStep = 0;
+    const TOTAL_STEPS = 3; // 0-based last step index
+
+    let cart = {};
+    let selectedDay   = "";
+    let selectedTimeSlot = "Mattina";
+
+    /* ---- INIT ---- */
+    function initApp() {
+        renderDots();
+        generateDayButtons();
+        renderProducts();
+        updateSlider();
+    }
+
+    /* ---- DOTS ---- */
+    function renderDots() {
+        const stepCount = TOTAL_STEPS + 1; // 4 steps
+        for (let s = 0; s <= TOTAL_STEPS; s++) {
+            const container = document.getElementById(`dots-${s}`);
+            if (!container) continue;
+            container.innerHTML = '';
+            for (let i = 0; i < stepCount; i++) {
+                const d = document.createElement('div');
+                d.className = 'step-dot' + (i === s ? ' active' : '');
+                container.appendChild(d);
+            }
+        }
+    }
+
+    /* ---- PRODUCTS ---- */
+    function renderProducts() {
+        const listContainer = document.getElementById('product-list');
+        CATEGORIES.forEach(cat => {
+            const label = document.createElement('div');
+            label.className = 'category-label';
+            label.textContent = cat.label;
+            listContainer.appendChild(label);
+
+            cat.products.forEach(p => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.id = `card-${p.id}`;
+                card.innerHTML = `
+                    <div class="product-header">
+                        <img src="${p.img}" class="product-image" alt="${p.name}" loading="lazy">
+                        <div class="product-info">
+                            <span class="product-name">${p.name}</span>
+                            <span class="product-price">€ ${p.price.toFixed(2)} / ${p.unit === 'etti' ? '100g' : 'pezzo'}</span>
+                            <span class="product-desc">${p.desc}</span>
+                        </div>
+                    </div>
+                    <div class="product-controls">
+                        <div class="qty-input-wrapper">
+                            <button class="qty-btn" onclick="changeQty(${p.id}, -1)">−</button>
+                            <input type="number" class="qty-input" id="qty-${p.id}" value="0" min="0" oninput="updateQty(${p.id})">
+                            <button class="qty-btn" onclick="changeQty(${p.id}, 1)">+</button>
+                            <span class="unit-label">${p.unit}</span>
+                        </div>
+                        <div class="item-subtotal" id="subtotal-${p.id}">€ 0.00</div>
+                    </div>
+                `;
+                listContainer.appendChild(card);
+            });
+        });
+    }
+
+    /* ---- DAYS ---- */
+    function generateDayButtons() {
+        const container = document.getElementById('day-selector');
+        const dayNames  = ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'];
+        let count = 0;
+        let date  = new Date();
+        date.setDate(date.getDate() + 1); // parte da domani
+
+        while (count < 6) {
+            const dow = date.getDay();
+            if (dow !== 0) { // no domenica
+                const dayName  = dayNames[dow];
+                const dayNum   = date.getDate();
+                const fullDate = date.toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                const monthStr = date.toLocaleDateString('it-IT', { month: 'short' });
+
+                const btn = document.createElement('div');
+                btn.className = `selection-btn ${count === 0 ? 'active' : ''}`;
+                if (count === 0) selectedDay = fullDate;
+
+                btn.innerHTML = `${dayName} ${dayNum} <span>${monthStr}</span>`;
+                btn.onclick = function() {
+                    document.querySelectorAll('#day-selector .selection-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    selectedDay = fullDate;
+                };
+                container.appendChild(btn);
+                count++;
+            }
+            date.setDate(date.getDate() + 1);
+        }
+    }
+
+    /* ---- SELECTION GROUP ---- */
+    function selectGroup(group, value, element) {
+        element.parentNode.querySelectorAll('.selection-btn').forEach(b => b.classList.remove('active'));
+        element.classList.add('active');
+        if (group === 'time') selectedTimeSlot = value;
+    }
+
+    /* ---- QTY ---- */
+    function changeQty(id, delta) {
+        const input = document.getElementById(`qty-${id}`);
+        const current = parseFloat(input.value) || 0;
+        const step = products.find(p => p.id === id).unit === 'etti' ? 1 : 1;
+        input.value = Math.max(0, current + delta * step);
+        updateQty(id);
+    }
+
+    function updateQty(id) {
+        const val = parseFloat(document.getElementById(`qty-${id}`).value);
+        cart[id] = isNaN(val) || val < 0 ? 0 : val;
+        const p  = products.find(prod => prod.id === id);
+        const sub = cart[id] * p.price;
+        document.getElementById(`subtotal-${id}`).innerText = `€ ${sub.toFixed(2)}`;
+        document.getElementById(`card-${id}`).classList.toggle('has-qty', cart[id] > 0);
+        calculateTotal();
+    }
+
+    /* ---- TOTALE ---- */
+    function calculateTotal() {
+        let total    = 0;
+        let hasItems = false;
+        let summaryHtml = '';
+
+        products.forEach(p => {
+            const q = cart[p.id] || 0;
+            if (q > 0) {
+                const sub = q * p.price;
+                total += sub;
+                hasItems = true;
+                summaryHtml += `<div class="summary-row">
+                    <span>${p.name} × ${q} ${p.unit}</span>
+                    <span style="font-weight:700;">€ ${sub.toFixed(2)}</span>
+                </div>`;
+            }
+        });
+
+        const fmtTotal = `€ ${total.toFixed(2)}`;
+        document.getElementById('cart-total').innerText = fmtTotal;
+        document.getElementById('go-to-checkout').disabled = !hasItems;
+        document.getElementById('summary-items-list').innerHTML = summaryHtml || '<span style="color:#bbb;font-size:0.82rem;">Nessun prodotto selezionato</span>';
+        document.getElementById('summary-total').innerText = fmtTotal;
+        return total;
+    }
+
+    /* ---- NAVIGAZIONE ---- */
+    function nextStep() {
+        if (currentStep < TOTAL_STEPS) { currentStep++; updateSlider(); }
+    }
+
+    function prevStep() {
+        if (currentStep > 0) { currentStep--; updateSlider(); }
+    }
+
+    function updateSlider() {
+        document.getElementById('slider').style.transform = `translateX(-${currentStep * 100}vw)`;
+        document.getElementById('progress-fill').style.width = `${(currentStep / TOTAL_STEPS) * 100}%`;
+    }
+
+    /* ---- WHATSAPP ---- */
+    function sendToWhatsApp() {
+        const name  = document.getElementById('user-name').value.trim();
+        const notes = document.getElementById('order-notes').value.trim();
+
+        if (!name) {
+            document.getElementById('user-name').focus();
+            document.getElementById('user-name').style.borderColor = 'var(--butcher-red)';
+            setTimeout(() => document.getElementById('user-name').style.borderColor = '', 2000);
+            return;
+        }
+
+        const total = calculateTotal();
+
+        let message = `🥩 *ORDINE – ${SHOP_NAME}*\n\n`;
+        message += `👤 *Cliente:* ${name}\n`;
+        message += `📅 *Giorno:* ${selectedDay}\n`;
+        message += `⏰ *Fascia:* ${selectedTimeSlot}\n`;
+        message += `———————————————\n`;
+
+        products.forEach(p => {
+            if (cart[p.id] > 0) {
+                message += `• ${p.name}  ×${cart[p.id]} ${p.unit}  →  *€ ${(cart[p.id] * p.price).toFixed(2)}*\n`;
+            }
+        });
+
+        message += `———————————————\n`;
+        message += `💰 *TOTALE STIMATO:* € ${total.toFixed(2)}\n`;
+        if (notes) message += `\n📝 *Note:* ${notes}\n`;
+        message += `\n_In attesa di conferma prezzi finali._`;
+
+        // Popola schermata conferma
+        document.getElementById('confirm-name').textContent  = name;
+        document.getElementById('confirm-day').textContent   = selectedDay;
+        document.getElementById('confirm-time').textContent  = selectedTimeSlot;
+        document.getElementById('confirm-total').textContent = `€ ${total.toFixed(2)}`;
+
+        window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
+        nextStep(); // vai a step 3
+    }
+
+    /* ---- RESET ---- */
+    function resetOrder() {
+        // Azzera carrello
+        products.forEach(p => {
+            cart[p.id] = 0;
+            const input = document.getElementById(`qty-${p.id}`);
+            if (input) input.value = 0;
+            const sub = document.getElementById(`subtotal-${p.id}`);
+            if (sub) sub.textContent = '€ 0.00';
+            const card = document.getElementById(`card-${p.id}`);
+            if (card) card.classList.remove('has-qty');
+        });
+        document.getElementById('user-name').value    = '';
+        document.getElementById('order-notes').value  = '';
+        calculateTotal();
+        currentStep = 0;
+        updateSlider();
+    }
+
+    window.onload = initApp;
+</script>
+</body>
+</html>
