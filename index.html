@@ -19,51 +19,6 @@
         html { height: 100%; }
         body { height: 100%; width: 100%; overflow: hidden; background: var(--bg); display: flex; }
 
-        /* ===== PANNELLO SINISTRO (solo desktop) ===== */
-        .left-panel {
-            display: none;
-        }
-
-        @media (min-width: 768px) {
-            body { background: var(--panel-bg); }
-
-            .left-panel {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                width: 42%;
-                flex-shrink: 0;
-                height: 100vh;
-                overflow-y: auto;
-                padding: 40px 44px;
-                background: var(--panel-bg);
-                color: #f5e6d0;
-                position: relative;
-            }
-            .left-panel::after {
-                content: '';
-                position: absolute;
-                inset: 0;
-                background: radial-gradient(ellipse at 30% 0%, rgba(192,88,26,0.25) 0%, transparent 65%),
-                            radial-gradient(ellipse at 70% 100%, rgba(192,88,26,0.12) 0%, transparent 55%);
-                pointer-events: none;
-            }
-            .lp-logo { width: 140px; margin-bottom: 22px; filter: drop-shadow(0 6px 20px rgba(192,88,26,0.5)); }
-            .lp-title { font-size: 1.8rem; font-weight: 900; line-height: 1.1; margin-bottom: 4px; }
-            .lp-subtitle { font-size: 0.85rem; color: rgba(245,230,208,0.6); margin-bottom: 28px; }
-            .lp-divider { border: none; border-top: 1px solid rgba(255,255,255,0.1); margin: 20px 0; }
-            .lp-specialty { font-size: 0.78rem; color: rgba(245,230,208,0.7); line-height: 1.6; margin-bottom: 24px; }
-            .lp-sede { margin-bottom: 20px; }
-            .lp-sede-name { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 3px; }
-            .lp-sede-addr { font-size: 0.8rem; color: rgba(245,230,208,0.8); margin-bottom: 8px; }
-            .lp-hours { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; font-size: 0.76rem; }
-            .lp-hours .hd { font-weight: 600; color: rgba(245,230,208,0.9); }
-            .lp-hours .ht { color: rgba(245,230,208,0.55); }
-            .lp-hours .hc { color: #e57373; font-weight: 600; }
-            .lp-wa { display: inline-flex; align-items: center; gap: 8px; margin-top: 28px; background: rgba(37,211,102,0.15); border: 1px solid rgba(37,211,102,0.3); color: #81c784; padding: 10px 18px; border-radius: 12px; font-size: 0.82rem; font-weight: 700; text-decoration: none; transition: background 0.2s; }
-            .lp-wa:hover { background: rgba(37,211,102,0.25); }
-        }
-
         /* ===== FRAME APP ===== */
         .frame {
             width: 100%;
@@ -71,11 +26,17 @@
             position: relative;
             overflow: hidden;
             background: var(--bg);
-            flex-shrink: 0;
         }
 
-        @media (min-width: 768px) {
-            .frame { width: 58%; box-shadow: -8px 0 40px rgba(0,0,0,0.3); }
+        @media (min-width: 500px) {
+            body {
+                background: #c8bdb4;
+                justify-content: center;
+            }
+            .frame {
+                width: min(100vw, 680px);
+                box-shadow: 0 0 80px rgba(0,0,0,0.22), 0 0 0 1px rgba(0,0,0,0.05);
+            }
         }
 
         /* TOP BAR */
@@ -89,7 +50,7 @@
 
         /* SLIDER */
         .slider { display: flex; width: 600%; height: 100%; transition: transform 0.55s cubic-bezier(0.77,0,0.175,1); }
-        .page { width: calc(100% / 6); height: 100vh; padding-top: 56px; display: flex; flex-direction: column; flex-shrink: 0; }
+        .page { width: calc(100% / 6); height: 100%; padding-top: 56px; display: flex; flex-direction: column; flex-shrink: 0; }
 
         /* BUTTONS */
         .btn { display: block; width: 100%; padding: 16px; border: none; border-radius: 14px; font-size: 0.95rem; font-weight: 700; cursor: pointer; font-family: 'Outfit', sans-serif; transition: transform 0.1s; }
@@ -219,43 +180,6 @@
     </style>
 </head>
 <body>
-
-<!-- PANNELLO SINISTRO — solo desktop -->
-<div class="left-panel">
-    <img src="logo.png" class="lp-logo" alt="F.lli Cordero">
-    <div class="lp-title">Macelleria<br>F.lli Cordero</div>
-    <div class="lp-subtitle">Qualità artigianale dal 1980</div>
-    <div class="lp-specialty">🥩 Carni di Fassona Piemontese<br>🧀 Salumificio Artigianale<br>🏔️ Specialità Formaggi Locali</div>
-
-    <hr class="lp-divider">
-
-    <div class="lp-sede">
-        <div class="lp-sede-name">📍 Neive</div>
-        <div class="lp-sede-addr">Via de Revello, 30 – 12052 Borgonovo CN</div>
-        <div class="lp-hours">
-            <span class="hd">Lun–Mer</span><span class="ht">08:00–12:30 / 16:00–19:30</span>
-            <span class="hd">Giovedì</span><span class="hc">Chiuso</span>
-            <span class="hd">Ven–Sab</span><span class="ht">08:00–12:30 / 16:00–19:30</span>
-            <span class="hd">Domenica</span><span class="ht">08:00–12:30</span>
-        </div>
-    </div>
-
-    <div class="lp-sede">
-        <div class="lp-sede-name">📍 Castagnito</div>
-        <div class="lp-sede-addr">Via Neive, 18 – 12050 Castagnito CN</div>
-        <div class="lp-hours">
-            <span class="hd">Lunedì</span><span class="hc">Chiuso</span>
-            <span class="hd">Mar–Ven</span><span class="ht">08:00–12:30 / 16:00–19:00</span>
-            <span class="hd">Sabato</span><span class="ht">08:00–12:30</span>
-            <span class="hd">Domenica</span><span class="hc">Chiuso</span>
-        </div>
-    </div>
-
-    <a class="lp-wa" href="https://wa.me/393319144264" target="_blank">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-        +39 331 914 4264
-    </a>
-</div>
 
 <div class="frame">
 <div class="top-bar">
