@@ -181,8 +181,15 @@
         .time-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
         .summ-box { background: #fafafa; border-radius: 14px; padding: 13px; }
         .summ-hdr { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #ccc; margin-bottom: 9px; }
-        .summ-row { display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 4px; }
-        .summ-sv { font-size: 0.66rem; color: var(--accent); margin-left: 6px; }
+        .summ-row { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; margin-bottom: 6px; padding: 8px 10px; background: #fafafa; border-radius: 10px; }
+        .summ-row-info { flex: 1; min-width: 0; }
+        .summ-row-name { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .summ-row-price { font-size: 0.72rem; color: var(--muted); margin-top: 1px; }
+        .summ-sv { font-size: 0.66rem; color: var(--accent); }
+        .summ-ctrl { display: flex; align-items: center; gap: 5px; flex-shrink: 0; }
+        .summ-qbtn { width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid var(--border); background: white; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--accent); font-weight: 700; padding: 0; line-height: 1; }
+        .summ-qty { font-size: 0.82rem; font-weight: 800; min-width: 18px; text-align: center; }
+        .summ-del { width: 24px; height: 24px; border-radius: 50%; border: none; background: #fee; color: #e53935; font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; margin-left: 2px; }
         .summ-tot { display: flex; justify-content: space-between; font-weight: 800; font-size: 0.9rem; color: var(--accent); padding-top: 9px; border-top: 1px dashed #ddd; margin-top: 5px; }
         .sede-pill { display: inline-flex; align-items: center; gap: 5px; background: var(--accent-light); color: var(--accent); font-size: 0.72rem; font-weight: 700; padding: 4px 12px; border-radius: 20px; margin-bottom: 14px; }
 
@@ -760,6 +767,15 @@ function adj(id, delta) {
     recalc();
 }
 
+function removeItem(id) {
+    cart[id] = 0;
+    sottovuoto[id] = false;
+    const qv = document.getElementById(`qv-${id}`); if (qv) qv.textContent = 0;
+    const sv = document.getElementById(`sv-${id}`); if (sv) sv.checked = false;
+    const card = document.getElementById(`card-${id}`); if (card) card.classList.remove('on');
+    recalc();
+}
+
 function toggleSv(id) {
     sottovuoto[id] = document.getElementById(`sv-${id}`).checked;
     recalc();
@@ -783,7 +799,19 @@ function recalc() {
         if (q > 0) {
             tot += q * p.price; has = true;
             const sv = sottovuoto[p.id] ? '<span class="summ-sv">🫙 sv</span>' : '';
-            rows += `<div class="summ-row"><span>${p.name} ×${q}${p.unit}${sv}</span><span style="font-weight:700">€${(q*p.price).toFixed(2)}</span></div>`;
+            const priceStr = p.price > 0 ? `€${(q*p.price).toFixed(2)}` : 'Prezzo da confermare';
+            rows += `<div class="summ-row">
+                <div class="summ-row-info">
+                    <div class="summ-row-name">${p.name} ${sv}</div>
+                    <div class="summ-row-price">${priceStr}</div>
+                </div>
+                <div class="summ-ctrl">
+                    <button class="summ-qbtn" onclick="adj(${p.id},-1)">−</button>
+                    <span class="summ-qty">${q} ${p.unit}</span>
+                    <button class="summ-qbtn" onclick="adj(${p.id},1)">+</button>
+                    <button class="summ-del" onclick="removeItem(${p.id})" title="Rimuovi">✕</button>
+                </div>
+            </div>`;
         }
     });
     const f = `€ ${tot.toFixed(2)}`;
