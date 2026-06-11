@@ -180,17 +180,39 @@
         .chip.active { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
         .time-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
         .summ-box { background: #fafafa; border-radius: 14px; padding: 13px; }
+        /* Riepilogo ordine */
         .summ-hdr { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #ccc; margin-bottom: 9px; }
-        .summ-row { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; margin-bottom: 6px; padding: 8px 10px; background: #fafafa; border-radius: 10px; }
+        .summ-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 0.8rem; margin-bottom: 5px; padding: 8px 10px; background: #fafafa; border-radius: 10px; }
         .summ-row-info { flex: 1; min-width: 0; }
-        .summ-row-name { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .summ-row-price { font-size: 0.72rem; color: var(--muted); margin-top: 1px; }
-        .summ-sv { font-size: 0.66rem; color: var(--accent); }
-        .summ-ctrl { display: flex; align-items: center; gap: 5px; flex-shrink: 0; }
-        .summ-qbtn { width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid var(--border); background: white; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--accent); font-weight: 700; padding: 0; line-height: 1; }
-        .summ-qty { font-size: 0.82rem; font-weight: 800; min-width: 18px; text-align: center; }
-        .summ-del { width: 24px; height: 24px; border-radius: 50%; border: none; background: #fee; color: #e53935; font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; margin-left: 2px; }
+        .summ-row-name { font-weight: 600; font-size: 0.82rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .summ-row-meta { font-size: 0.7rem; color: var(--muted); margin-top: 2px; }
+        .summ-sv { color: var(--accent); }
+        .summ-row-right { text-align: right; flex-shrink: 0; }
+        .summ-row-subtotal { font-weight: 800; font-size: 0.85rem; color: var(--text); }
+        .summ-row-unitprice { font-size: 0.68rem; color: var(--muted); }
+        .summ-edit-btn { display: flex; align-items: center; gap: 6px; margin-top: 10px; padding: 9px 14px; background: var(--accent-light); border: none; border-radius: 10px; color: var(--accent); font-size: 0.8rem; font-weight: 700; cursor: pointer; width: 100%; font-family: 'Outfit', sans-serif; }
         .summ-tot { display: flex; justify-content: space-between; font-weight: 800; font-size: 0.9rem; color: var(--accent); padding-top: 9px; border-top: 1px dashed #ddd; margin-top: 5px; }
+
+        /* BOTTOM SHEET — Modifica Ordine */
+        .sheet-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+        .sheet-overlay.open { opacity: 1; pointer-events: auto; }
+        .sheet { position: fixed; left: 50%; bottom: 0; width: min(100vw, 680px); transform: translateX(-50%) translateY(100%); background: white; border-radius: 22px 22px 0 0; z-index: 201; transition: transform 0.4s cubic-bezier(0.32,0.72,0,1); max-height: 80vh; display: flex; flex-direction: column; padding-bottom: env(safe-area-inset-bottom); }
+        .sheet.open { transform: translateX(-50%) translateY(0); }
+        .sheet-handle { width: 36px; height: 4px; background: var(--border); border-radius: 2px; margin: 12px auto 0; }
+        .sheet-head { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px 10px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+        .sheet-title { font-size: 1rem; font-weight: 800; }
+        .sheet-close { width: 30px; height: 30px; border-radius: 50%; border: none; background: var(--bg); color: var(--muted); font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .sheet-list { overflow-y: auto; padding: 12px 16px; flex: 1; }
+        .sheet-list::-webkit-scrollbar { width: 0; }
+        .sheet-item { display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--bg); border-radius: 14px; margin-bottom: 8px; }
+        .sheet-item-info { flex: 1; min-width: 0; }
+        .sheet-item-name { font-size: 0.88rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .sheet-item-price { font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
+        .sheet-item-sv { font-size: 0.7rem; color: var(--accent); }
+        .sheet-ctrl { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+        .sheet-qbtn { width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid var(--border); background: white; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--accent); font-weight: 700; padding: 0; }
+        .sheet-qty { font-size: 0.95rem; font-weight: 800; min-width: 36px; text-align: center; }
+        .sheet-del { width: 34px; height: 34px; border-radius: 50%; border: none; background: #fee; color: #e53935; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; }
         .sede-pill { display: inline-flex; align-items: center; gap: 5px; background: var(--accent-light); color: var(--accent); font-size: 0.72rem; font-weight: 700; padding: 4px 12px; border-radius: 20px; margin-bottom: 14px; }
 
         /* PAGE 4 — CONFIRM */
@@ -347,6 +369,7 @@
                 <div class="summ-hdr">Riepilogo Ordine</div>
                 <div id="summ-rows"></div>
                 <div class="summ-tot"><span>Totale Stimato</span><span id="summ-tot">€ 0.00</span></div>
+                <button class="summ-edit-btn" onclick="openSheet()">✏️ Clicca per modificare l'ordine</button>
             </div>
         </div>
     </div>
@@ -374,6 +397,18 @@
 </div>
 
 </div><!-- end slider -->
+
+<!-- BOTTOM SHEET MODIFICA ORDINE -->
+<div class="sheet-overlay" id="sheet-overlay" onclick="closeSheet()"></div>
+<div class="sheet" id="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head">
+        <span class="sheet-title">✏️ Modifica Ordine</span>
+        <button class="sheet-close" onclick="closeSheet()">✕</button>
+    </div>
+    <div class="sheet-list" id="sheet-list"></div>
+</div>
+
 </div><!-- end frame -->
 
 <script>
@@ -767,6 +802,74 @@ function adj(id, delta) {
     recalc();
 }
 
+/* ====== BOTTOM SHEET MODIFICA ====== */
+function openSheet() {
+    renderSheet();
+    document.getElementById('sheet').classList.add('open');
+    document.getElementById('sheet-overlay').classList.add('open');
+}
+
+function closeSheet() {
+    document.getElementById('sheet').classList.remove('open');
+    document.getElementById('sheet-overlay').classList.remove('open');
+}
+
+function renderSheet() {
+    const list = document.getElementById('sheet-list');
+    list.innerHTML = '';
+    const selected = products.filter(p => (cart[p.id]||0) > 0);
+    if (selected.length === 0) {
+        list.innerHTML = '<p style="color:var(--muted);font-size:0.85rem;text-align:center;padding:20px 0">Nessun prodotto selezionato</p>';
+        return;
+    }
+    selected.forEach(p => {
+        const q = cart[p.id];
+        const priceStr = p.price > 0 ? `€${p.price.toFixed(2)}/${p.unit==='etti'?'100g':'pz'}` : 'Prezzo da confermare';
+        const svStr = sottovuoto[p.id] ? ' · 🫙 Sottovuoto' : '';
+        const row = document.createElement('div');
+        row.className = 'sheet-item'; row.id = `si-${p.id}`;
+        row.innerHTML = `
+            <div class="sheet-item-info">
+                <div class="sheet-item-name">${p.name}</div>
+                <div class="sheet-item-price">${priceStr}${svStr}</div>
+            </div>
+            <div class="sheet-ctrl">
+                <button class="sheet-qbtn" onclick="sheetAdj(${p.id},-1)">−</button>
+                <span class="sheet-qty" id="siq-${p.id}">${q} ${p.unit}</span>
+                <button class="sheet-qbtn" onclick="sheetAdj(${p.id},1)">+</button>
+                <button class="sheet-del" onclick="sheetRemove(${p.id})" title="Rimuovi">🗑</button>
+            </div>`;
+        list.appendChild(row);
+    });
+}
+
+function sheetAdj(id, delta) {
+    const newQ = Math.max(0, (cart[id]||0) + delta);
+    cart[id] = newQ;
+    if (newQ === 0) {
+        sottovuoto[id] = false;
+        const row = document.getElementById(`si-${id}`); if (row) row.remove();
+    } else {
+        const el = document.getElementById(`siq-${id}`);
+        const p = products.find(x => x.id === id);
+        if (el) el.textContent = `${newQ} ${p.unit}`;
+    }
+    // aggiorna anche i contatori nella pagina prodotti se presenti
+    const qv = document.getElementById(`qv-${id}`); if (qv) qv.textContent = newQ;
+    const card = document.getElementById(`card-${id}`); if (card) card.classList.toggle('on', newQ > 0);
+    recalc();
+}
+
+function sheetRemove(id) {
+    cart[id] = 0; sottovuoto[id] = false;
+    const qv = document.getElementById(`qv-${id}`); if (qv) qv.textContent = 0;
+    const sv = document.getElementById(`sv-${id}`); if (sv) sv.checked = false;
+    const card = document.getElementById(`card-${id}`); if (card) card.classList.remove('on');
+    const row = document.getElementById(`si-${id}`); if (row) row.remove();
+    recalc();
+    if (products.filter(p => (cart[p.id]||0) > 0).length === 0) closeSheet();
+}
+
 function removeItem(id) {
     cart[id] = 0;
     sottovuoto[id] = false;
@@ -798,18 +901,16 @@ function recalc() {
         const q = cart[p.id]||0;
         if (q > 0) {
             tot += q * p.price; has = true;
-            const sv = sottovuoto[p.id] ? '<span class="summ-sv">🫙 sv</span>' : '';
-            const priceStr = p.price > 0 ? `€${(q*p.price).toFixed(2)}` : 'Prezzo da confermare';
+            const sv = sottovuoto[p.id] ? '<span class="summ-sv"> · 🫙 sv</span>' : '';
+            const unitPrice = p.price > 0 ? `€${p.price.toFixed(2)}/${p.unit==='etti'?'100g':'pz'}` : 'Prezzo da confermare';
+            const subtotal  = p.price > 0 ? `€${(q*p.price).toFixed(2)}` : '—';
             rows += `<div class="summ-row">
                 <div class="summ-row-info">
-                    <div class="summ-row-name">${p.name} ${sv}</div>
-                    <div class="summ-row-price">${priceStr}</div>
+                    <div class="summ-row-name">${p.name}${sv}</div>
+                    <div class="summ-row-meta">${q} ${p.unit} · ${unitPrice}</div>
                 </div>
-                <div class="summ-ctrl">
-                    <button class="summ-qbtn" onclick="adj(${p.id},-1)">−</button>
-                    <span class="summ-qty">${q} ${p.unit}</span>
-                    <button class="summ-qbtn" onclick="adj(${p.id},1)">+</button>
-                    <button class="summ-del" onclick="removeItem(${p.id})" title="Rimuovi">✕</button>
+                <div class="summ-row-right">
+                    <div class="summ-row-subtotal">${subtotal}</div>
                 </div>
             </div>`;
         }
