@@ -63,19 +63,37 @@
         .home { display: flex; flex-direction: column; align-items: center; flex: 1; overflow-y: auto; padding: 20px 20px 30px; }
         .home-logo { width: 130px; margin: 10px 0 14px; filter: drop-shadow(0 8px 20px rgba(192,88,26,0.18)); animation: breathe 3s ease-in-out infinite; }
         @keyframes breathe { 0%,100%{transform:scale(1)} 50%{transform:scale(1.04)} }
-        .home h1 { font-size: 1.8rem; font-weight: 900; color: var(--text); margin-bottom: 16px; text-align: center; }
+        .home h1 { font-size: 1.8rem; font-weight: 900; color: var(--text); margin-bottom: 6px; text-align: center; }
+        .home-specialty { font-size: 0.82rem; color: var(--muted); text-align: center; margin-bottom: 20px; line-height: 1.5; }
 
-        .info-card { width: 100%; background: white; border-radius: 18px; padding: 16px; margin-bottom: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); }
-        .info-section { display: flex; gap: 10px; margin-bottom: 14px; }
-        .info-section:last-child { margin-bottom: 0; }
-        .info-ico { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
-        .info-body {}
-        .info-label { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--accent); display: block; margin-bottom: 4px; }
-        .info-text { font-size: 0.82rem; color: var(--text); line-height: 1.4; }
+        /* Sede cards cliccabili in home */
+        .home-sedi { width: 100%; display: flex; flex-direction: column; gap: 10px; margin-bottom: 4px; }
+        .home-sede-card {
+            width: 100%; background: white; border-radius: 18px; padding: 16px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            border: 2px solid var(--border);
+            cursor: pointer; transition: border-color 0.18s, transform 0.1s;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .home-sede-card:active { transform: scale(0.98); }
+        .home-sede-card:hover { border-color: var(--accent); }
+        .home-sede-body { flex: 1; }
+        .home-sede-name { font-size: 0.95rem; font-weight: 800; margin-bottom: 3px; }
+        .home-sede-addr { font-size: 0.76rem; color: var(--muted); margin-bottom: 9px; }
+        .home-sede-arrow { font-size: 1.4rem; color: var(--accent); font-weight: 700; flex-shrink: 0; }
+
         .hours-grid { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; font-size: 0.78rem; }
         .hday { font-weight: 600; color: var(--text); }
         .htime { color: var(--muted); }
         .hclosed { color: #e53935; font-weight: 600; }
+
+        /* mantiene info-card per pagina sede */
+        .info-card { width: 100%; background: white; border-radius: 18px; padding: 16px; margin-bottom: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); }
+        .info-section { display: flex; gap: 10px; margin-bottom: 14px; }
+        .info-section:last-child { margin-bottom: 0; }
+        .info-ico { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+        .info-label { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--accent); display: block; margin-bottom: 4px; }
+        .info-text { font-size: 0.82rem; color: var(--text); line-height: 1.4; }
         .divider-h { border: none; border-top: 1px solid var(--border); margin: 12px 0; }
 
         /* PAGE 1 — SEDE */
@@ -196,21 +214,14 @@
     <div class="home">
         <img src="logo.png" class="home-logo" alt="F.lli Cordero">
         <h1>Macelleria F.lli Cordero</h1>
+        <p class="home-specialty">Carni di Fassona Piemontese · Salumificio Artigianale · Specialità Formaggi Locali</p>
 
-        <div class="info-card">
-            <div class="info-section">
-                <span class="info-ico">🥩</span>
-                <div class="info-body">
-                    <span class="info-label">Specialità</span>
-                    <span class="info-text">Carni di Fassona Piemontese · Salumificio Artigianale · Specialità Formaggi Locali</span>
-                </div>
-            </div>
-            <hr class="divider-h">
-            <div class="info-section">
-                <span class="info-ico">📍</span>
-                <div class="info-body">
-                    <span class="info-label">Neive</span>
-                    <span class="info-text" style="margin-bottom:6px;display:block;">Via de Revello, 30 – 12052 Borgonovo CN</span>
+        <div class="home-sedi">
+            <!-- NEIVE -->
+            <div class="home-sede-card" onclick="quickSede('neive')">
+                <div class="home-sede-body">
+                    <div class="home-sede-name">📍 Neive</div>
+                    <div class="home-sede-addr">Via de Revello, 30 – 12052 Borgonovo CN</div>
                     <div class="hours-grid">
                         <span class="hday">Lun–Mer</span><span class="htime">08:00–12:30 / 16:00–19:30</span>
                         <span class="hday">Giovedì</span><span class="hclosed">Chiuso</span>
@@ -218,24 +229,24 @@
                         <span class="hday">Domenica</span><span class="htime">08:00–12:30</span>
                     </div>
                 </div>
+                <span class="home-sede-arrow">›</span>
             </div>
-            <hr class="divider-h">
-            <div class="info-section">
-                <span class="info-ico">📍</span>
-                <div class="info-body">
-                    <span class="info-label">Castagnito</span>
-                    <span class="info-text" style="margin-bottom:6px;display:block;">Via Neive, 18 – 12050 Castagnito CN</span>
+
+            <!-- CASTAGNITO -->
+            <div class="home-sede-card" onclick="quickSede('castagnito')">
+                <div class="home-sede-body">
+                    <div class="home-sede-name">📍 Castagnito</div>
+                    <div class="home-sede-addr">Via Neive, 18 – 12050 Castagnito CN</div>
                     <div class="hours-grid">
-                        <span class="hday">Lun–Dom</span><span class="hclosed">Chiuso</span>
+                        <span class="hday">Lunedì</span><span class="hclosed">Chiuso</span>
                         <span class="hday">Mar–Ven</span><span class="htime">08:00–12:30 / 16:00–19:00</span>
                         <span class="hday">Sabato</span><span class="htime">08:00–12:30</span>
-                        <span class="hday">Lun / Dom</span><span class="hclosed">Chiuso</span>
+                        <span class="hday">Domenica</span><span class="hclosed">Chiuso</span>
                     </div>
                 </div>
+                <span class="home-sede-arrow">›</span>
             </div>
         </div>
-
-        <button class="btn btn-primary" onclick="go(1)">Inizia l'Ordine →</button>
     </div>
 </div>
 
@@ -642,15 +653,22 @@ function openCat(catId) {
 /* ====== SEDE ====== */
 function selSede(key, el) {
     document.querySelectorAll('.sede-card').forEach(c => c.classList.remove('active'));
-    el.classList.add('active');
+    if (el) el.classList.add('active');
+    // evidenzia anche la card nella pagina sede
+    const sedeCard = document.getElementById(`sede-${key}`);
+    if (sedeCard) sedeCard.classList.add('active');
     selSedeName = key;
     document.getElementById('btn-sede').disabled = false;
-    // rebuild day grid in checkout
     buildDays();
-    // show sede pill in checkout
     const s = SEDI[key];
     document.getElementById('sede-pill-wrap').innerHTML =
         `<div class="sede-pill">📍 ${s.nome} · ${s.via}</div>`;
+}
+
+// Seleziona sede dalla home e vai diretto alle categorie (salta step 1)
+function quickSede(key) {
+    selSede(key, null);
+    go(2);
 }
 
 /* ====== DAYS ====== */
