@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>F.lli Cordero – Ordina Online</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <style>
@@ -23,6 +23,7 @@
         .frame {
             width: 100%;
             height: 100vh;
+            height: 100dvh;
             position: relative;
             overflow: hidden;
             background: var(--bg);
@@ -50,7 +51,7 @@
 
         /* SLIDER */
         .slider { display: flex; width: 600%; height: 100%; transition: transform 0.55s cubic-bezier(0.77,0,0.175,1); }
-        .page { width: calc(100% / 6); height: 100%; padding-top: 56px; display: flex; flex-direction: column; flex-shrink: 0; }
+        .page { width: calc(100% / 6); height: 100%; padding-top: 56px; padding-bottom: env(safe-area-inset-bottom); display: flex; flex-direction: column; flex-shrink: 0; }
 
         /* BUTTONS */
         .btn { display: block; width: 100%; padding: 16px; border: none; border-radius: 14px; font-size: 0.95rem; font-weight: 700; cursor: pointer; font-family: 'Outfit', sans-serif; transition: transform 0.1s; }
@@ -114,7 +115,7 @@
         .sede-selected-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); display: none; margin-left: auto; flex-shrink: 0; }
         .sede-card.active .sede-selected-dot { display: block; }
 
-        .sede-footer { background: white; border-top: 1px solid var(--border); padding: 14px 18px 24px; }
+        .sede-footer { background: white; border-top: 1px solid var(--border); padding: 14px 18px max(24px, env(safe-area-inset-bottom)); }
 
         /* PAGE 2 — GRIGLIA CATEGORIE */
         .page-head { padding: 14px 18px 10px; background: white; border-bottom: 1px solid var(--border); flex-shrink: 0; }
@@ -160,7 +161,7 @@
         .sv-lbl { font-size: 0.74rem; font-weight: 600; color: var(--accent); }
         .sv-note { font-size: 0.68rem; color: var(--muted); margin-left: auto; }
 
-        .cart-bar { background: white; border-top: 1px solid var(--border); padding: 12px 16px 22px; flex-shrink: 0; }
+        .cart-bar { background: white; border-top: 1px solid var(--border); padding: 12px 16px max(22px, env(safe-area-inset-bottom)); flex-shrink: 0; }
         .cart-bar-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 11px; }
         .cart-bar-lbl { font-size: 0.76rem; color: var(--muted); }
         .cart-bar-tot { font-size: 1.05rem; font-weight: 900; color: var(--accent); }
