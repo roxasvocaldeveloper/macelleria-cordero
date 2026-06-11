@@ -67,20 +67,22 @@
         .home-specialty { font-size: 0.82rem; color: var(--muted); text-align: center; margin-bottom: 20px; line-height: 1.5; }
 
         /* Sede cards cliccabili in home */
-        .home-sedi { width: 100%; display: flex; flex-direction: column; gap: 10px; margin-bottom: 4px; }
+        .home-scegli { font-size: 1rem; font-weight: 800; color: var(--text); width: 100%; margin-bottom: 10px; }
+        .home-sedi { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 4px; }
         .home-sede-card {
-            width: 100%; background: white; border-radius: 18px; padding: 16px;
+            background: white; border-radius: 18px; padding: 14px;
             box-shadow: 0 2px 12px rgba(0,0,0,0.05);
             border: 2px solid var(--border);
-            cursor: pointer; transition: border-color 0.18s, transform 0.1s;
-            display: flex; align-items: center; gap: 12px;
+            cursor: pointer; transition: border-color 0.18s, transform 0.12s;
+            display: flex; flex-direction: column; gap: 8px; position: relative;
         }
-        .home-sede-card:active { transform: scale(0.98); }
+        .home-sede-card:active { transform: scale(0.97); }
         .home-sede-card:hover { border-color: var(--accent); }
+        .home-sede-arrow { position: absolute; top: 12px; right: 14px; font-size: 1rem; color: var(--accent); font-weight: 700; }
         .home-sede-body { flex: 1; }
-        .home-sede-name { font-size: 0.95rem; font-weight: 800; margin-bottom: 3px; }
-        .home-sede-addr { font-size: 0.76rem; color: var(--muted); margin-bottom: 9px; }
-        .home-sede-arrow { font-size: 1.4rem; color: var(--accent); font-weight: 700; flex-shrink: 0; }
+        .home-sede-name { font-size: 0.88rem; font-weight: 800; margin-bottom: 3px; padding-right: 18px; }
+        .home-sede-addr { font-size: 0.7rem; color: var(--muted); margin-bottom: 8px; line-height: 1.3; }
+        .home-sede-card .hours-grid { font-size: 0.72rem; gap: 1px 8px; }
 
         .hours-grid { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; font-size: 0.78rem; }
         .hday { font-weight: 600; color: var(--text); }
@@ -216,6 +218,7 @@
         <h1>Macelleria F.lli Cordero</h1>
         <p class="home-specialty">Carni di Fassona Piemontese · Salumificio Artigianale · Specialità Formaggi Locali</p>
 
+        <p class="home-scegli">Scegli la Sede</p>
         <div class="home-sedi">
             <!-- NEIVE -->
             <div class="home-sede-card" onclick="quickSede('neive')">
