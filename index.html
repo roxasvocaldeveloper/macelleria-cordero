@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>F.lli Cordero – Ordina Online</title>
+
+    <!-- Anteprima link (WhatsApp, iMessage, social) -->
+    <meta property="og:title" content="F.lli Cordero – Ordina Online">
+    <meta property="og:description" content="Ordina online le specialità della Macelleria F.lli Cordero. Carne di Fassona Piemontese, salumi artigianali e formaggi locali.">
+    <meta property="og:image" content="https://macelleria-cordero.vercel.app/preview.png">
+    <meta property="og:url" content="https://macelleria-cordero.vercel.app">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -54,7 +62,7 @@
         .page { width: calc(100% / 6); height: 100%; padding-top: 56px; padding-bottom: env(safe-area-inset-bottom); display: flex; flex-direction: column; flex-shrink: 0; }
 
         /* BUTTONS */
-        .btn { display: block; width: 100%; padding: 16px; border: none; border-radius: 14px; font-size: 0.95rem; font-weight: 700; cursor: pointer; font-family: 'Outfit', sans-serif; transition: transform 0.1s; }
+        .btn { display: block; width: 100%; padding: 16px; border: none; border-radius: 14px; font-size: 0.95rem; font-weight: 700; cursor: pointer; font-family: 'Outfit', sans-serif; transition: transform 0.1s; touch-action: manipulation; }
         .btn:active { transform: scale(0.97); }
         .btn-primary { background: var(--accent); color: white; box-shadow: 0 5px 18px rgba(192,88,26,0.22); }
         .btn-primary:disabled { opacity: 0.35; pointer-events: none; }
@@ -74,7 +82,7 @@
             width: 100%; background: white; border-radius: 18px; padding: 16px;
             box-shadow: 0 2px 12px rgba(0,0,0,0.05);
             border: 2px solid var(--border);
-            cursor: pointer; transition: border-color 0.18s, transform 0.12s;
+            cursor: pointer; transition: border-color 0.18s, transform 0.12s; touch-action: manipulation;
             display: flex; align-items: center; gap: 12px; position: relative;
         }
         .home-sede-card:active { transform: scale(0.98); }
@@ -105,7 +113,7 @@
         .section-title { font-size: 1.15rem; font-weight: 900; margin-bottom: 4px; }
         .section-sub { font-size: 0.8rem; color: var(--muted); margin-bottom: 18px; }
 
-        .sede-card { background: white; border-radius: 18px; padding: 16px; margin-bottom: 12px; border: 2px solid var(--border); cursor: pointer; transition: 0.2s; }
+        .sede-card { background: white; border-radius: 18px; padding: 16px; margin-bottom: 12px; border: 2px solid var(--border); cursor: pointer; transition: 0.2s; touch-action: manipulation; }
         .sede-card.active { border-color: var(--accent); background: var(--accent-light); }
         .sede-card:active { transform: scale(0.98); }
         .sede-name { font-size: 1rem; font-weight: 800; margin-bottom: 3px; display: flex; align-items: center; gap: 6px; }
@@ -126,7 +134,7 @@
         .cat-grid-scroll::-webkit-scrollbar { width: 0; }
         .cat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
-        .cat-card { background: white; border-radius: 16px; padding: 16px 14px; border: 1.5px solid var(--border); cursor: pointer; transition: border-color 0.15s, transform 0.1s; display: flex; flex-direction: column; gap: 6px; position: relative; }
+        .cat-card { background: white; border-radius: 16px; padding: 16px 14px; border: 1.5px solid var(--border); cursor: pointer; transition: border-color 0.15s, transform 0.1s; display: flex; flex-direction: column; gap: 6px; position: relative; touch-action: manipulation; }
         .cat-card:active { transform: scale(0.97); }
         .cat-card.has-items { border-color: var(--accent); }
         .cat-card-icon { font-size: 1.6rem; }
@@ -150,7 +158,7 @@
         .pcard-name { font-size: 0.84rem; font-weight: 700; }
         .pcard-price { font-size: 0.7rem; color: var(--muted); }
         .pcard-ctrl { display: flex; align-items: center; gap: 7px; }
-        .qbtn { width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--border); background: white; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--accent); font-weight: 700; padding: 0; }
+        .qbtn { width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--border); background: white; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--accent); font-weight: 700; padding: 0; touch-action: manipulation; }
         .qval { font-size: 0.9rem; font-weight: 800; min-width: 20px; text-align: center; }
         .qunit { font-size: 0.68rem; color: var(--muted); }
 
@@ -175,7 +183,7 @@
         input:focus, textarea:focus { border-color: var(--accent); background: white; }
         textarea { resize: none; min-height: 65px; }
         .day-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
-        .chip { background: #fafafa; border: 1.5px solid var(--border); padding: 9px 6px; border-radius: 11px; text-align: center; cursor: pointer; font-size: 0.8rem; font-weight: 600; transition: 0.15s; }
+        .chip { background: #fafafa; border: 1.5px solid var(--border); padding: 9px 6px; border-radius: 11px; text-align: center; cursor: pointer; font-size: 0.8rem; font-weight: 600; transition: 0.15s; touch-action: manipulation; }
         .chip span { display: block; font-size: 0.62rem; color: var(--muted); margin-top: 2px; }
         .chip.active { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
         .time-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
@@ -183,19 +191,23 @@
         /* Riepilogo ordine */
         .summ-hdr { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #ccc; margin-bottom: 9px; }
         .summ-row { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; margin-bottom: 6px; padding: 9px 10px; background: #fafafa; border-radius: 10px; }
-        .summ-del { width: 22px; height: 22px; border-radius: 50%; border: none; background: #fee; color: #e53935; font-size: 0.7rem; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; flex-shrink: 0; }
+        .summ-del { width: 22px; height: 22px; border-radius: 50%; border: none; background: #fee; color: #e53935; font-size: 0.7rem; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; flex-shrink: 0; touch-action: manipulation; }
         .summ-del:active { background: #fcc; }
         .summ-row-info { flex: 1; min-width: 0; }
         .summ-row-name { font-weight: 600; font-size: 0.82rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .summ-row-meta { font-size: 0.68rem; color: var(--muted); margin-top: 1px; }
         .summ-sv { color: var(--accent); }
         .summ-ctrl { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
-        .summ-qbtn { width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--border); background: white; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--accent); font-weight: 700; padding: 0; }
+        .summ-qbtn { width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--border); background: white; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--accent); font-weight: 700; padding: 0; touch-action: manipulation; }
         .summ-qbtn:active { background: var(--accent-light); }
         .summ-qty-val { font-size: 0.82rem; font-weight: 800; min-width: 28px; text-align: center; color: var(--text); }
         .summ-price { font-size: 0.82rem; font-weight: 800; color: var(--accent); min-width: 44px; text-align: right; }
         .summ-tot { display: flex; justify-content: space-between; font-weight: 800; font-size: 0.9rem; color: var(--accent); padding-top: 9px; border-top: 1px dashed #ddd; margin-top: 5px; }
         .sede-pill { display: inline-flex; align-items: center; gap: 5px; background: var(--accent-light); color: var(--accent); font-size: 0.72rem; font-weight: 700; padding: 4px 12px; border-radius: 20px; margin-bottom: 14px; }
+
+        /* BOTTOM SHEET BUTTONS */
+        .sheet-qbtn { touch-action: manipulation; }
+        .sheet-del { touch-action: manipulation; }
 
         /* PAGE 4 — CONFIRM */
         .conf { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; padding: 24px 22px 36px; text-align: center; }
@@ -430,14 +442,15 @@ const IMG = {
     muscolo:   "https://images.unsplash.com/photo-1574484284002-952d92456975?q=80&w=200&auto=format&fit=crop",
     lingua:    "https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=200&auto=format&fit=crop",
     // Carni Bianche
-    petto:     "https://images.unsplash.com/photo-1598103442097-8b74394b95c3?q=80&w=200&auto=format&fit=crop",
-    coscia:    "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?q=80&w=200&auto=format&fit=crop",
-    ali:       "https://images.unsplash.com/photo-1527477396000-e27163b481c2?q=80&w=200&auto=format&fit=crop",
-    pollo_int: "https://images.unsplash.com/photo-1587593810167-a84920ea0781?q=80&w=200&auto=format&fit=crop",
-    tacchino:  "https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?q=80&w=200&auto=format&fit=crop",
-    coniglio:  "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?q=80&w=200&auto=format&fit=crop",
-    galletto:  "https://images.unsplash.com/photo-1602530305536-79f4c277a5f6?q=80&w=200&auto=format&fit=crop",
-    faraona:   "https://images.unsplash.com/photo-1600091166971-7f9faad6c2d2?q=80&w=200&auto=format&fit=crop",
+    petto:     "IMAGES%20/CARNI%20BIANCHE/petto-pollo.jpeg",
+    coscia:    "IMAGES%20/CARNI%20BIANCHE/coscia-pollo.jpeg",
+    ali:       "IMAGES%20/CARNI%20BIANCHE/ali-pollo.jpeg",
+    pollo_int: "IMAGES%20/CARNI%20BIANCHE/busto-pollo.jpeg",
+    coscia_d:  "IMAGES%20/CARNI%20BIANCHE/coscia-disossata.jpeg",
+    tacchino:  "IMAGES%20/CARNI%20BIANCHE/fesa-tacchino.jpeg",
+    coniglio:  "IMAGES%20/CARNI%20BIANCHE/coniglio.jpeg",
+    galletto:  "IMAGES%20/CARNI%20BIANCHE/galletto.jpeg",
+    faraona:   "IMAGES%20/CARNI%20BIANCHE/faraona.jpeg",
     // Rolate
     rolata:    "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=200&auto=format&fit=crop",
     // Suino
@@ -524,7 +537,7 @@ const CATS = [
     {id:31, name:"Coscia di Pollo Ruspantino",           price:1.20, unit:"etti", img:IMG.coscia},
     {id:32, name:"Ali di Pollo Ruspantino",              price:0.80, unit:"etti", img:IMG.ali},
     {id:33, name:"Busto di Pollo Intero Ruspantino",     price:12.00,unit:"pz",   img:IMG.pollo_int},
-    {id:34, name:"Coscia di Pollo Disossata Aromatizzata",price:1.50,unit:"etti", img:IMG.coscia},
+    {id:34, name:"Coscia di Pollo Disossata Aromatizzata",price:1.50,unit:"etti", img:IMG.coscia_d},
     {id:35, name:"Fesa di Tacchino",                     price:1.30, unit:"etti", img:IMG.tacchino},
     {id:36, name:"Coscia di Tacchinella",                price:1.10, unit:"etti", img:IMG.tacchino},
     {id:37, name:"Coniglio Nostrano",                    price:15.00,unit:"pz",   img:IMG.coniglio},
@@ -816,11 +829,30 @@ function buildTimes(dow) {
 
 /* ====== CART ====== */
 function adj(id, delta) {
+    const wasZero = (cart[id]||0) === 0;
     cart[id] = Math.max(0, (cart[id]||0) + delta);
-    document.getElementById(`qv-${id}`).textContent = cart[id];
-    const card = document.getElementById(`card-${id}`);
-    card.classList.toggle('on', cart[id] > 0);
-    if (cart[id] === 0) { document.getElementById(`sv-${id}`).checked = false; sottovuoto[id] = false; }
+    // aggiorna DOM solo se il card prodotto è già stato renderizzato
+    const qv   = document.getElementById(`qv-${id}`);   if (qv)   qv.textContent = cart[id];
+    const card = document.getElementById(`card-${id}`);  if (card) card.classList.toggle('on', cart[id] > 0);
+    if (cart[id] === 0) {
+        const sv = document.getElementById(`sv-${id}`); if (sv) sv.checked = false;
+        sottovuoto[id] = false;
+    }
+    // ricostruisce il riepilogo solo se un prodotto appare o sparisce
+    if (wasZero !== (cart[id] === 0)) renderSummRows();
+    recalc();
+}
+
+// Usata nel riepilogo ordine: minimo 1 (usa ✕ per rimuovere)
+function summAdj(id, delta) {
+    const newQ = Math.max(1, (cart[id]||1) + delta);
+    cart[id] = newQ;
+    const qv   = document.getElementById(`qv-${id}`);  if (qv)   qv.textContent = newQ;
+    const card = document.getElementById(`card-${id}`); if (card) card.classList.toggle('on', true);
+    // aggiorna span quantità nel riepilogo ordine
+    const p = products.find(x => x.id === id);
+    const summQty = document.getElementById(`summ-qty-${id}`);
+    if (summQty && p) summQty.textContent = `${newQ} ${p.unit}`;
     recalc();
 }
 
@@ -888,6 +920,7 @@ function sheetRemove(id) {
     const sv = document.getElementById(`sv-${id}`); if (sv) sv.checked = false;
     const card = document.getElementById(`card-${id}`); if (card) card.classList.remove('on');
     const row = document.getElementById(`si-${id}`); if (row) row.remove();
+    const summRow = document.getElementById(`summ-row-${id}`); if (summRow) summRow.remove();
     recalc();
     if (products.filter(p => (cart[p.id]||0) > 0).length === 0) closeSheet();
 }
@@ -898,16 +931,52 @@ function removeItem(id) {
     const qv = document.getElementById(`qv-${id}`); if (qv) qv.textContent = 0;
     const sv = document.getElementById(`sv-${id}`); if (sv) sv.checked = false;
     const card = document.getElementById(`card-${id}`); if (card) card.classList.remove('on');
+    // rimuove la riga direttamente senza rifare tutto il DOM
+    const row = document.getElementById(`summ-row-${id}`); if (row) row.remove();
     recalc();
 }
 
 function toggleSv(id) {
     sottovuoto[id] = document.getElementById(`sv-${id}`).checked;
+    // aggiorna icona 🫙 nel riepilogo senza rifare tutto il DOM
+    const p = products.find(x => x.id === id);
+    const nameEl = document.querySelector(`#summ-row-${id} .summ-row-name`);
+    if (nameEl && p) {
+        const sv = sottovuoto[id] ? ' <span class="summ-sv">🫙</span>' : '';
+        nameEl.innerHTML = `${p.name}${sv}`;
+    }
     recalc();
 }
 
+// Ricostruisce il DOM del riepilogo (solo quando un prodotto viene aggiunto/rimosso)
+function renderSummRows() {
+    let rows = '';
+    products.forEach(p => {
+        const q = cart[p.id]||0;
+        if (q > 0) {
+            const sv = sottovuoto[p.id] ? ' <span class="summ-sv">🫙</span>' : '';
+            const unitPrice = p.price > 0 ? `€${p.price.toFixed(2)}/${p.unit==='etti'?'100g':'pz'}` : 'Da confermare';
+            const subtotal  = p.price > 0 ? `€${(q*p.price).toFixed(2)}` : '—';
+            rows += `<div class="summ-row" id="summ-row-${p.id}">
+                <button class="summ-del" onclick="removeItem(${p.id})">✕</button>
+                <div class="summ-row-info">
+                    <div class="summ-row-name">${p.name}${sv}</div>
+                    <div class="summ-row-meta">${unitPrice}</div>
+                </div>
+                <div class="summ-ctrl">
+                    <button class="summ-qbtn" onclick="summAdj(${p.id},-1)">−</button>
+                    <span class="summ-qty-val" id="summ-qty-${p.id}">${q} ${p.unit}</span>
+                    <button class="summ-qbtn" onclick="summAdj(${p.id},1)">+</button>
+                </div>
+                <span class="summ-price" id="summ-price-${p.id}">${subtotal}</span>
+            </div>`;
+        }
+    });
+    document.getElementById('summ-rows').innerHTML = rows || '<span style="color:#ccc;font-size:0.78rem">Vuoto</span>';
+}
+
 function recalc() {
-    let tot = 0, has = false, rows = '';
+    let tot = 0, has = false;
 
     // badge per categoria
     CATS.forEach(c => {
@@ -923,31 +992,18 @@ function recalc() {
         const q = cart[p.id]||0;
         if (q > 0) {
             tot += q * p.price; has = true;
-            const sv = sottovuoto[p.id] ? ' <span class="summ-sv">🫙</span>' : '';
-            const unitPrice = p.price > 0 ? `€${p.price.toFixed(2)}/${p.unit==='etti'?'100g':'pz'}` : 'Da confermare';
-            const subtotal  = p.price > 0 ? `€${(q*p.price).toFixed(2)}` : '—';
-            rows += `<div class="summ-row">
-                <button class="summ-del" onclick="removeItem(${p.id})">✕</button>
-                <div class="summ-row-info">
-                    <div class="summ-row-name">${p.name}${sv}</div>
-                    <div class="summ-row-meta">${unitPrice}</div>
-                </div>
-                <div class="summ-ctrl">
-                    <button class="summ-qbtn" onclick="adj(${p.id},-1)">−</button>
-                    <span class="summ-qty-val">${q} ${p.unit}</span>
-                    <button class="summ-qbtn" onclick="adj(${p.id},1)">+</button>
-                </div>
-                <span class="summ-price">${subtotal}</span>
-            </div>`;
+            // aggiorna solo il sottotale della riga (senza rifare il DOM)
+            const priceEl = document.getElementById(`summ-price-${p.id}`);
+            if (priceEl) priceEl.textContent = p.price > 0 ? `€${(q*p.price).toFixed(2)}` : '—';
         }
     });
+
     const f = `€ ${tot.toFixed(2)}`;
     document.getElementById('cart-total').textContent = f;
     document.getElementById('cart-total-2').textContent = f;
     document.getElementById('top-total').textContent = f;
     document.getElementById('top-total').style.visibility = has ? 'visible' : 'hidden';
     document.getElementById('btn-checkout').disabled = !has;
-    document.getElementById('summ-rows').innerHTML = rows || '<span style="color:#ccc;font-size:0.78rem">Vuoto</span>';
     document.getElementById('summ-tot').textContent = f;
     return tot;
 }
@@ -1013,10 +1069,24 @@ function reset() {
     document.querySelectorAll('.sede-card').forEach(c => c.classList.remove('active'));
     selSedeName = null;
     document.getElementById('btn-sede').disabled = true;
-    recalc(); go(0);
+    renderSummRows(); recalc(); go(0);
 }
 
 window.onload = init;
+
+// Blocca zoom da pinch e doppio-tap (iOS ignora user-scalable=no)
+let lastTap = 0;
+document.addEventListener('touchstart', function(e) {
+    if (e.touches.length > 1) {
+        e.preventDefault(); // blocca pinch-zoom
+        return;
+    }
+    const now = Date.now();
+    if (now - lastTap < 300) {
+        e.preventDefault(); // blocca doppio-tap zoom
+    }
+    lastTap = now;
+}, { passive: false });
 </script>
 </body>
 </html>
